@@ -6,22 +6,14 @@ on:
 
 jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: webfactory/ssh-agent@v0.5.4
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.8
         with:
-          ssh-private-key: ${{ secrets.SSH_DEPLOY_PRIVATE_KEY }}
-
-      - name: Disable Host key verification
-        # Hack to prevent "Host key verification failed". Should be replaced with a ssh-keyscan based solution
-        run: echo "StrictHostKeyChecking no" >> ~/.ssh/config
-
-      - name: Pull new repo
-        run: |
-          cd docker-frontend
-          git pull
-          docker-compose up -d
-        env:
-          COMPOSE_DOCKER_CLI_BUILD: 0
-          DOCKER_HOST: "ssh://fpochat@172.174.163.45"
+          host: 172.174.163.45
+          key: ${{ secrets.SSH_DEPLOY_PRIVATE_KEY }}
+          username: fpochat
+          password: ${{ secrets.VM_PASSWORD }}
+          script: cd docker-frontend
