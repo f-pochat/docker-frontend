@@ -6,22 +6,31 @@ import reportWebVitals from './reportWebVitals';
 import {RouterProvider} from "react-router";
 import {createBrowserRouter} from "react-router-dom";
 import Home from "./components/Home";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import { Toaster} from 'sonner'
+import AuthRouter from "./common/AuthRouter";
 
 const router = createBrowserRouter([
     {
-        path: "/",
-        element: <App />,
+        path: "home",
+        element: <AuthRouter><Home/></AuthRouter>,
     },
     {
-        path: "home",
-        element: <Home />,
+      path: "login",
+      element: <Login />
+    },
+    {
+        path: "sign-up",
+        element: <SignUp />
     }]
 )
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+      <Toaster position="bottom-center" />
+      <RouterProvider router={router}/>
   </React.StrictMode>
 );
 
