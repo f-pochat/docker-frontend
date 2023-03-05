@@ -16,4 +16,7 @@ jobs:
           key: ${{ secrets.SSH_DEPLOY_PRIVATE_KEY }}
           username: fpochat
           password: ${{ secrets.VM_PASSWORD }}
-          script: cd docker-frontend
+          script: |
+            cd docker-frontend
+            git pull
+            docker compose up -d
